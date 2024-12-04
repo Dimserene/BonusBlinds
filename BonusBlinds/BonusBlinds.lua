@@ -133,10 +133,10 @@ local bonusType = SMODS.ConsumableType {
     collection_rows = { 6, 6 },
     shop_rate = 2,
     rarities = {
-        {key = 1, rate = 75},
-        {key = 2, rate = 20},
-        {key = 3, rate = 4},
-        {key = 4, rate = 1},
+        {key = 'Common', weight = 75},
+        {key = 'Uncommon', weight = 20},
+        {key = 'Rare', weight = 4},
+        {key = 'Legendary', weight = 1},
     },
     default = "c_bb_extra"
 }
@@ -145,18 +145,17 @@ SMODS.Bonus = SMODS.Consumable:extend {
     set = 'Bonus',
     set_badges = function(self, card, badges)
         local colours = {
-            HEX('FE5F55'),
-            HEX('8867a5'),
-            HEX("fda200"),
-            {0,0,0,1}
+            Common = HEX('FE5F55'),
+            Uncommon =  HEX('8867a5'),
+            Rare = HEX("fda200"),
+            Legendary = {0,0,0,1}
         }
         if G and G.C and G.C.DARK_EDITION then
-            colours[4] = G.C.DARK_EDITION
+            colours["Legendary"] = G.C.DARK_EDITION
         end
-	local names = {"Common", "Uncommon", "Rare", "Legendary"}
-        local len = string.len(names[self.rarity])
+        local len = string.len(self.rarity)
         local size = 1.3 - (len > 5 and 0.02 * (len - 5) or 0)
-        badges[#badges + 1] = create_badge(names[self.rarity], colours[self.rarity], nil, size)
+        badges[#badges + 1] = create_badge(self.rarity, colours[self.rarity], nil, size)
     end,
     can_use = function(self, card)
         return ((not not G.blind_select) and (G.STATE ~= G.STATES.BUFFOON_PACK) and (G.STATE ~= G.STATES.TAROT_PACK) and (G.STATE ~= G.STATES.SPECTRAL_PACK) and (G.STATE ~= G.STATES.STANDARD_PACK) and (G.STATE ~= G.STATES.PLANET_PACK) and (G.STATE ~= G.STATES.SMODS_BOOSTER_OPENED))
@@ -214,7 +213,7 @@ SMODS.Bonus {
     },
     atlas = "another",
     pos = {x = 0, y = 0},
-    rarity = 1,
+    rarity = 'Common',
     set_ability = function(self, card, initial, delay_sprites)
         if G.P_BLINDS == nil then
             card.ability.the_blind = 'bl_small'
@@ -254,7 +253,7 @@ SMODS.Bonus {
     },
     atlas = "another",
     pos = {x = 2, y = 0},
-    rarity = 1,
+    rarity = 'Common',
     set_ability = function(self, card, initial, delay_sprites)
         card.ability.start_hands = 1
     end,
@@ -284,7 +283,7 @@ SMODS.Bonus {
     },
     atlas = "another",
     pos = {x = 3, y = 0},
-    rarity = 1,
+    rarity = 'Common',
     set_ability = function(self, card, initial, delay_sprites)
         card.ability.start_discards = 0
     end,
@@ -314,7 +313,7 @@ SMODS.Bonus {
     },
     atlas = "another",
     pos = {x = 9, y = 0},
-    rarity = 1,
+    rarity = 'Common',
     set_ability = function(self, card, initial, delay_sprites)
         card.ability.the_blind = 'bl_big'
         card.ability.hand_size_sub = 2
@@ -338,7 +337,7 @@ SMODS.Bonus {
     },
     atlas = "another",
     pos = {x = 11, y = 0},
-    rarity = 1,
+    rarity = 'Common',
     set_ability = function(self, card, initial, delay_sprites)
         card.ability.the_blind = 'bl_small'
     end,
@@ -361,7 +360,7 @@ SMODS.Bonus {
     },
     atlas = "another",
     pos = {x = 0, y = 1},
-    rarity = 1,
+    rarity = 'Common',
     set_ability = function(self, card, initial, delay_sprites)
         card.ability.the_blind = 'bl_final_heart'
     end,
@@ -385,7 +384,7 @@ SMODS.Bonus {
     },
     atlas = "another",
     pos = {x = 3, y = 1},
-    rarity = 1,
+    rarity = 'Common',
     set_ability = function(self, card, initial, delay_sprites)
         card.ability.reward = {blind_mult = 2}
     end,
@@ -414,7 +413,7 @@ SMODS.Bonus {
     },
     atlas = "another",
     pos = {x = 5, y = 1},
-    rarity = 1,
+    rarity = 'Common',
     set_ability = function(self, card, initial, delay_sprites)
         card.ability.the_blind = 'bl_bb_watch'
     end,
@@ -439,7 +438,7 @@ SMODS.Bonus {
     },
     atlas = "another",
     pos = {x = 7, y = 1},
-    rarity = 1,
+    rarity = 'Common',
     set_ability = function(self, card, initial, delay_sprites)
         card.ability.the_blind = 'bl_small'
     end,
@@ -465,7 +464,7 @@ SMODS.Bonus {
     },
     atlas = "another",
     pos = {x = 8, y = 1},
-    rarity = 1,
+    rarity = 'Common',
     set_ability = function(self, card, initial, delay_sprites)
         card.ability.emp_jkr = 1
     end,
@@ -496,7 +495,7 @@ SMODS.Bonus {
     },
     atlas = "another",
     pos = {x = 1, y = 2},
-    rarity = 1,
+    rarity = 'Common',
     set_ability = function(self, card, initial, delay_sprites)
         card.ability.the_blind = 'bl_big'
         card.ability.ante_mod = 1
@@ -529,7 +528,7 @@ SMODS.Bonus {
     },
     atlas = "another",
     pos = {x = 3, y = 2},
-    rarity = 1,
+    rarity = 'Common',
     set_ability = function(self, card, initial, delay_sprites)
         card.ability.the_blind = 'bl_window'
         card.ability.reward = {tags = {'tag_bb_zero'},}
@@ -556,7 +555,7 @@ SMODS.Bonus {
     },
     atlas = "another",
     pos = {x = 5, y = 2},
-    rarity = 1,
+    rarity = 'Common',
     set_ability = function(self, card, initial, delay_sprites)
         card.ability.the_blind = 'bl_small'
         card.ability.hands_mod = 1
@@ -582,7 +581,7 @@ SMODS.Bonus {
     },
     atlas = "another",
     pos = {x = 9, y = 2},
-    rarity = 1,
+    rarity = 'Common',
     set_ability = function(self, card, initial, delay_sprites)
         card.ability.reward = {blind_mult = 1.4, discards_mod = -1, hand_size = -1}
     end,
@@ -613,7 +612,7 @@ SMODS.Bonus {
     },
     atlas = "another",
     pos = {x = 11, y = 2},
-    rarity = 1,
+    rarity = 'Common',
     set_ability = function(self, card, initial, delay_sprites)
         card.ability.the_blind = 'bl_final_acorn'
     end,
@@ -640,7 +639,7 @@ SMODS.Bonus {
     atlas = "another",
     pos = {x = 1, y = 0},
     cost = 3,
-    rarity = 2,
+    rarity = 'Uncommon',
     set_ability = function(self, card, initial, delay_sprites)
         card.ability.the_blind = 'bl_final_vessel'
         card.ability.reward = {tags = {'tag_boss'}, blind_mult = 3}
@@ -667,7 +666,7 @@ SMODS.Bonus {
     atlas = "another",
     pos = {x = 5, y = 0},
     cost = 3,
-    rarity = 2,
+    rarity = 'Uncommon',
     set_ability = function(self, card, initial, delay_sprites)
         card.ability.the_blind = 'bl_small'
         card.ability.win_chance = 2
@@ -714,7 +713,7 @@ SMODS.Bonus {
     atlas = "another",
     pos = {x = 8, y = 0},
     cost = 3,
-    rarity = 2,
+    rarity = 'Uncommon',
     set_ability = function(self, card, initial, delay_sprites)
     end,
     loc_vars = function(self, info_queue, card)
@@ -778,7 +777,7 @@ SMODS.Bonus {
     atlas = "another",
     pos = {x = 2, y = 1},
     cost = 3,
-    rarity = 2,
+    rarity = 'Uncommon',
     set_ability = function(self, card, initial, delay_sprites)
         card.ability.reward = {tags = {'tag_bb_ironic'}}
     end,
@@ -899,7 +898,7 @@ SMODS.Bonus {
     atlas = "another",
     pos = {x = 4, y = 1},
     cost = 3,
-    rarity = 2,
+    rarity = 'Uncommon',
     set_ability = function(self, card, initial, delay_sprites)
         card.ability.the_blind = 'bl_final_bell'
     end,
@@ -924,7 +923,7 @@ SMODS.Bonus {
     atlas = "another",
     pos = {x = 6, y = 1},
     cost = 3,
-    rarity = 2,
+    rarity = 'Uncommon',
     set_ability = function(self, card, initial, delay_sprites)
         card.ability.hand_mult = 2
     end,
@@ -958,28 +957,23 @@ SMODS.Bonus {
     loc_txt = {
         name = "Patched Blind",
         text = {
-            "Defeat a {C:attention}Blind{}",
+            "Defeat {C:attention}#1#{}",
             "for a {C:attention}reward{}"
         }
     },
     atlas = "another",
     pos = {x = 9, y = 1},
     cost = 3,
-    rarity = 2,
+    rarity = 'Uncommon',
     set_ability = function(self, card, initial, delay_sprites)
+        card.ability.the_blind = 'bl_plant'
     end,
     loc_vars = function(self, info_queue, card)
-        return {vars = {}}
+        info_queue[#info_queue+1] = {key = 'blind_plant', set = 'Other'}
+        return {vars = {localize{type ='name_text', key = card.ability.the_blind, set = 'Blind'}}}
     end,
     use2 = function(self, card, area, copier)
-        local rngpick = {}
-        for i, j in pairs(G.P_BLINDS) do
-            if not j.boss or not j.boss.bonus then
-                table.insert(rngpick, i)
-            end
-        end
-        local blind = pseudorandom_element(rngpick, pseudoseed('bonus'))
-        bonus_selection(blind, {rand_reward = true})
+        bonus_selection(card.ability.the_blind, {rand_reward = true})
     end,
     in_pool = function(self)
         return (not not G.GAME.pool_flags.failed_broken_blind), {allow_duplicates = false}
@@ -998,7 +992,7 @@ SMODS.Bonus {
     atlas = "another",
     pos = {x = 10, y = 1},
     cost = 3,
-    rarity = 2,
+    rarity = 'Uncommon',
     set_ability = function(self, card, initial, delay_sprites)
         card.ability.the_blind = 'bl_wheel'
         card.ability.reward = {rerolls = 5}
@@ -1023,7 +1017,7 @@ SMODS.Bonus {
     atlas = "another",
     pos = {x = 0, y = 2},
     cost = 3,
-    rarity = 2,
+    rarity = 'Uncommon',
     set_ability = function(self, card, initial, delay_sprites)
         card.ability.the_blind = 'bl_bb_countdown'
     end,
@@ -1050,7 +1044,7 @@ SMODS.Bonus {
     atlas = "another",
     pos = {x = 4, y = 2},
     cost = 3,
-    rarity = 2,
+    rarity = 'Uncommon',
     set_ability = function(self, card, initial, delay_sprites)
         card.ability.the_blind = 'bl_tooth'
         card.ability.reward = {dollars = -3}
@@ -1084,7 +1078,7 @@ SMODS.Bonus {
     atlas = "another",
     pos = {x = 6, y = 2},
     cost = 3,
-    rarity = 2,
+    rarity = 'Uncommon',
     set_ability = function(self, card, initial, delay_sprites)
         card.ability.the_blind = 'bl_bb_infinity'
         card.ability.reward = {blind_mult = 3}
@@ -1112,7 +1106,7 @@ SMODS.Bonus {
     },
     atlas = "another",
     pos = {x = 6, y = 0},
-    rarity = 3,
+    rarity = 'Rare',
     cost = 5,
     set_ability = function(self, card, initial, delay_sprites)
         card.ability.start_discards = 1
@@ -1153,7 +1147,7 @@ SMODS.Bonus {
     },
     atlas = "another",
     pos = {x = 7, y = 0},
-    rarity = 3,
+    rarity = 'Rare',
     cost = 5,
     set_ability = function(self, card, initial, delay_sprites)
         card.ability.the_blind = 'bl_hook'
@@ -1180,7 +1174,7 @@ SMODS.Bonus {
     atlas = "another",
     pos = {x = 1, y = 1},
     cost = 3,
-    rarity = 3,
+    rarity = 'Rare',
     set_ability = function(self, card, initial, delay_sprites)
         card.ability.the_blind = 'bl_flint'
         card.ability.mult = 25
@@ -1206,7 +1200,7 @@ SMODS.Bonus {
     },
     atlas = "another",
     pos = {x = 11, y = 1},
-    rarity = 3,
+    rarity = 'Rare',
     cost = 5,
     set_ability = function(self, card, initial, delay_sprites)
         card.ability.the_blind = 'bl_ox'
@@ -1234,7 +1228,7 @@ SMODS.Bonus {
     },
     atlas = "another",
     pos = {x = 7, y = 2},
-    rarity = 3,
+    rarity = 'Rare',
     cost = 5,
     set_ability = function(self, card, initial, delay_sprites)
         card.ability.the_blind = 'bl_arm'
@@ -1260,7 +1254,7 @@ SMODS.Bonus {
     },
     atlas = "another",
     pos = {x = 8, y = 2},
-    rarity = 3,
+    rarity = 'Rare',
     cost = 5,
     set_ability = function(self, card, initial, delay_sprites)
         card.ability.the_blind = 'bl_final_leaf'
@@ -1291,7 +1285,7 @@ SMODS.Bonus {
     },
     atlas = "another",
     pos = {x = 10, y = 2},
-    rarity = 3,
+    rarity = 'Rare',
     cost = 5,
     set_ability = function(self, card, initial, delay_sprites)
         card.ability.the_blind = 'bl_pillar'
@@ -1328,7 +1322,7 @@ SMODS.Bonus {
     },
     atlas = "another",
     pos = {x = 4, y = 0},
-    rarity = 4,
+    rarity = 'Legendary',
     cost = 7,
     set_ability = function(self, card, initial, delay_sprites)
         card.ability.remove_ante = 2
@@ -1361,7 +1355,7 @@ SMODS.Bonus {
     },
     atlas = "another",
     pos = {x = 10, y = 0},
-    rarity = 4,
+    rarity = 'Legendary',
     cost = 7,
     set_ability = function(self, card, initial, delay_sprites)
         card.ability.spectrals = 1
@@ -1388,7 +1382,7 @@ SMODS.Bonus {
     },
     atlas = "another",
     pos = {x = 2, y = 2},
-    rarity = 4,
+    rarity = 'Legendary',
     cost = 7,
     set_ability = function(self, card, initial, delay_sprites)
     end,
@@ -1715,6 +1709,12 @@ SMODS.Booster {
     },
     weight = 0.3,
     name = "Blind Pack",
+    get_weight = function(self)
+        if (G.GAME.selected_back.name == "Ante Deck") then
+            return self.weight * 5
+        end
+        return self.weight
+    end,
     pos = {x = 0, y = 0},
     config = {extra = 3, choose = 1, name = "Blind Pack"},
     create_card = function(self, card)
@@ -1735,6 +1735,12 @@ SMODS.Booster {
     },
     weight = 0.3,
     name = "Blind Pack",
+    get_weight = function(self)
+        if (G.GAME.selected_back.name == "Ante Deck") then
+            return self.weight * 5
+        end
+        return self.weight
+    end,
     pos = {x = 1, y = 0},
     config = {extra = 3, choose = 1, name = "Blind Pack"},
     create_card = function(self, card)
@@ -1756,6 +1762,12 @@ SMODS.Booster {
     weight = 0.3,
     cost = 6,
     name = "Jumbo Blind Pack",
+    get_weight = function(self)
+        if (G.GAME.selected_back.name == "Ante Deck") then
+            return self.weight * 5
+        end
+        return self.weight
+    end,
     pos = {x = 0, y = 1},
     config = {extra = 5, choose = 1, name = "Blind Pack"},
     create_card = function(self, card)
@@ -1777,6 +1789,12 @@ SMODS.Booster {
     weight = 0.07,
     cost = 8,
     name = "Mega Blind Pack",
+    get_weight = function(self)
+        if (G.GAME.selected_back.name == "Ante Deck") then
+            return self.weight * 5
+        end
+        return self.weight
+    end,
     pos = {x = 1, y = 1},
     config = {extra = 5, choose = 2, name = "Blind Pack"},
     create_card = function(self, card)
@@ -2068,10 +2086,10 @@ function bonus_new_round(theBlind, bonusData)
             G.GAME.subhash = (G.GAME.round_resets.ante)..(blhash)
 
             -- local customBlind = {name = 'The Ox', defeated = false, order = 4, dollars = 5, mult = 2,  vars = {localize('ph_most_played')}, debuff = {}, pos = {x=0, y=2}, boss = {min = 6, max = 10, bonus = true}, boss_colour = HEX('b95b08')}
+            G.GAME.blind_on_deck = 'Bonus'
             G.GAME.blind:set_blind(G.P_BLINDS[theBlind])
             G.GAME.blind.config.bonus = bonusData
             G.GAME.last_blind.boss = nil
-            G.GAME.blind_on_deck = 'Bonus'
             if not next(SMODS.find_card("j_bb_change")) then
                 G.GAME.blind.dollars = 0
                 G.GAME.current_round.dollars_to_be_earned = ''
@@ -2553,6 +2571,9 @@ function SMODS.current_mod.process_loc_text()
     G.localization.descriptions.Other["blind_wheel"] = {}
     G.localization.descriptions.Other["blind_wheel"].text = { "#1# in #2# cards get", "drawn face down" }
     G.localization.descriptions.Other["blind_wheel"].name = localize{type ='name_text', key = 'bl_wheel', set = 'Blind'}
+    G.localization.descriptions.Other["blind_plant"] = {}
+    G.localization.descriptions.Other["blind_plant"].text = {"All face cards", "are debuffed" }
+    G.localization.descriptions.Other["blind_plant"].name = localize{type ='name_text', key = 'bl_plant', set = 'Blind'}
     G.localization.descriptions.Other["perkeo_note"] = {}
     G.localization.descriptions.Other["perkeo_note"].text = { "{C:attention}Shops{} from {C:red}Bonus Blinds{}", "spawned by {C:attention}Perkeo{} do not", "activate {C:attention}Perkeo{}" }
     G.localization.descriptions.Other["perkeo_note"].name = "Important Note"

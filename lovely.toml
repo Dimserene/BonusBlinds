@@ -129,43 +129,6 @@ overwrite = true
 
 [[patches]]
 [patches.pattern]
-target = 'card.lua'
-pattern = '''return self.ability.mult'''
-position = 'at'
-payload = '''return self.ability.mult + (self.ability.perma_bonus_mult or 0)'''
-match_indent = true
-overwrite = true
-
-[[patches]]
-[patches.pattern]
-target = 'functions/common_events.lua'
-pattern = '''elseif _c.set == 'Enhanced' then'''
-position = 'before'
-payload = '''if specific_vars and specific_vars.bonus_mult then
-    localize{type = 'other', key = 'card_extra_mult', nodes = desc_nodes, vars = {specific_vars.bonus_mult}}
-end'''
-match_indent = true
-
-[[patches]]
-[patches.pattern]
-target = 'functions/common_events.lua'
-pattern = '''elseif _c.set == 'Booster' then'''
-position = 'before'
-payload = '''if specific_vars and specific_vars.bonus_mult then
-    localize{type = 'other', key = 'card_extra_mult', nodes = desc_nodes, vars = {specific_vars.bonus_mult}}
-end'''
-match_indent = true
-
-[[patches]]
-[patches.pattern]
-target = 'card.lua'
-pattern = '''bonus_chips = (self.ability.bonus + (self.ability.perma_bonus or 0)) > 0 and (self.ability.bonus + (self.ability.perma_bonus or 0)) or nil,'''
-position = 'after'
-payload = '''bonus_mult = ((self.ability.perma_bonus_mult or 0) > 0) and self.ability.perma_bonus_mult or nil,'''
-match_indent = true
-
-[[patches]]
-[patches.pattern]
 target = 'blind.lua'
 pattern = '''if self.name == "Small Blind" then'''
 position = 'at'
@@ -376,20 +339,6 @@ payload = '''
 if args.challenge and args.challenge.rules.custom[1] and (args.challenge.rules.custom[1].id == 'only_boss') then G.GAME.round_resets.blind_states.Small = 'Hide' end
 if args.challenge and args.challenge.rules.custom[1] and (args.challenge.rules.custom[1].id == 'only_boss') then G.GAME.round_resets.blind_states.Big = 'Hide' end
 if args.challenge and args.challenge.rules.custom[2] and (args.challenge.rules.custom[2].id == 'more_bonus_blinds') then G.GAME.bonus_rate = 14 end'''
-match_indent = true
-
-[[patches]]
-[patches.pattern]
-target = 'blind.lua'
-pattern = '''function Blind:stay_flipped(area, card)'''
-position = 'after'
-payload = '''   if G.GAME.blind.config.bonus and G.GAME.blind.config.bonus.face_down then
-        if area == G.hand then
-            if pseudorandom(pseudoseed('wheel')) < G.GAME.blind.config.bonus.face_down then
-                return true
-            end
-        end
-    end'''
 match_indent = true
 
 [[patches]]
